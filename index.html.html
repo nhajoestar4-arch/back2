@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Can We Try Again? ❤️</title>
+
+  <!-- GSAP CDN & Canvas Confetti -->
+  <script src="https://cloudflare.com"></script>
+  <script src="https://jsdelivr.net"></script>
+
+  <style>
+    /* Reset & Base Layout Styles */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: #0c0a09;
+      color: #f5f5f4;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Ambient Glow Backgrounds */
+    .aurora-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+      background: #0c0a09;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .aurora-blob {
+      position: absolute;
+      width: 60vw;
+      height: 60vw;
+      border-radius: 50%;
+      filter: blur(100px);
+      opacity: 0.4;
+      animation: aurora-flow 18s ease-in-out infinite alternate;
+    }
+
+    .blob-1 {
+      top: -20%;
+      left: -10%;
+      background: radial-gradient(circle, #ec4899 0%, transparent 70%);
+    }
+
+    .blob-2 {
+      bottom: -20%;
+      right: -10%;
+      background: radial-gradient(circle, #a855f7 0%, transparent 70%);
+      animation-delay: -5s;
+    }
+
+    @keyframes aurora-flow {
+      0% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(5%, 10%) scale(1.1); }
+      100% { transform: translate(-5%, -5%) scale(0.95); }
+    }
+
+    /* Core Container Structure */
+    main {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      max-w: 550px;
+      margin: 0 auto;
+    }
+
+    /* Glassmorphism Card Container */
+    .glass-card {
+      background: rgba(28, 25, 23, 0.65);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 24px;
+      padding: 40px;
+      text-align: center;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+      position: relative;
+    }
+
+    .emoji-icon {
+      font-size: 64px;
+      margin-bottom: 20px;
+      display: inline-block;
+      animation: pulse-glow 2.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse-glow {
+      0%, 100% { transform: scale(1); filter: drop-shadow(0 0 10px rgba(244, 114, 182, 0.5)); }
+      50% { transform: scale(1.08); filter: drop-shadow(0 0 25px rgba(244, 114, 182, 0.8)); }
+    }
+
+    h1 {
+      font-size: 40px;
+      font-weight: 800;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #ffffff 0%, #f472b6 60%, #fb7185 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    p {
+      color: #d6d3d1;
+      font-size: 18px;
+      line-height: 1.6;
+      margin-bottom: 40px;
+    }
+
+    /* Action Row Layout */
+    .actions-wrapper {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      min-height: 60px;
+      position: relative;
+      width: 100%;
+    }
+
+    /* Pretty Pill Buttons */
+    .btn {
+      padding: 14px 40px;
+      border-radius: 50px;
+      font-size: 18px;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      outline: none;
+      transition: background-color 0.2s ease, transform 0.1s ease;
+    }
+
+    .btn-yes {
+      background: linear-gradient(135deg, #ec4899 0%, #e11d48 100%);
+      color: #ffffff;
+      box-shadow: 0 0 20px rgba(236, 72, 153, 0.4);
+      z-index: 20;
+    }
+
+    .btn-yes:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 30px rgba(236, 72, 153, 0.6);
+    }
+
+    .btn-no {
+      background-color: #292524;
+      border: 1px solid #44403c;
+      color: #a8a29e;
+      z-index: 50;
+    }
+
+    .btn-no:hover {
+      background-color: #3e3a38;
+      color: #f5f5f4;
+    }
+
+    /* Footer Credit Styling at the Bottom */
+    footer {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+      font-size: 14px;
+      font-weight: 500;
+      color: #78716c;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background Aurora Elements -->
+  <div class="aurora-bg">
+    <div class="aurora-blob blob-1"></div>
+    <div class="aurora-blob blob-2"></div>
+  </div>
+
+  <!-- Main Container -->
+  <main>
+    <div id="question-card" class="glass-card">
+      <div id="main-emoji" class="emoji-icon">🥺</div>
+      <h1 id="main-title">Can You Come Back?</h1>
+      <p id="main-desc">Things haven't been the same without you. I miss what we had, and I really want to make things right. Will you give us another chance?</p>
+
+      <div id="actions-wrapper" class="actions-wrapper">
+        <button id="btn-yes" onclick="handleYes()" class="btn btn-yes">Yes ❤️</button>
+        <button id="btn-no" class="btn btn-no">No</button>
+      </div>
+    </div>
+  </main>
+
+  <!-- Credit Footer Label Section -->
+  <footer>Credit by por</footer>
+
+  <script>
+    const btnNo = document.getElementById('btn-no');
+    const btnYes = document.getElementById('btn-yes');
+    const card = document.getElementById('question-card');
+
+    let hasMoved = false;
+
+    function moveNoButton() {
+      const cardRect = card.getBoundingClientRect();
+      const btnRect = btnNo.getBoundingClientRect();
+      const padding = 16;
+
+      // Restrict movement space safely within the bounds of the card container
+      const minX = padding;
+      const maxX = cardRect.width - btnRect.width - padding;
+      const minY = padding;
+      const maxY = cardRect.height - btnRect.height - padding;
+
+      let randomX = Math.random() * (maxX - minX) + minX;
+      let randomY = Math.random() * (maxY - minY) + minY;
+
+      // Convert position coordinate framework to stay absolute within card boundaries
+      if (!hasMoved) {
+        btnNo.style.position = 'absolute';
+        hasMoved = true;
+      }
+
+      if (typeof gsap !== 'undefined') {
+        gsap.to(btnNo, {
+          left: randomX,
+          top: randomY,
+          duration: 0.2,
+          ease: 'power1.out'
+        });
+      } else {
+        btnNo.style.left = randomX + 'px';
+        btnNo.style.top = randomY + 'px';
+      }
+    }
+
+    // Trigger evasive jumps instantly on cursor hover or finger touch
+    btnNo.addEventListener('mouseenter', moveNoButton);
+    btnNo.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      moveNoButton();
+    });
+
+    // Success screen callback transition
+    function handleYes() {
+      btnNo.remove();
+      
+      if (typeof confetti === 'function') {
+        let duration = 4 * 1000;
+        let animationEnd = Date.now() + duration;
+        let defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 100 };
+
+        function randomInRange(min, max) {
+          return Math.random() * (max - min) + min;
+        }
+
+        let interval = setInterval(function() {
+          let timeLeft = animationEnd - Date.now();
+          if (timeLeft <= 0) return clearInterval(interval);
+
+          let particleCount = 50 * (timeLeft / duration);
+          confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
+          confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
+        }, 250);
+      }
+
+      document.getElementById('main-emoji').innerText = '💖';
+      document.getElementById('main-title').innerText = 'Thank You!';
+      document.getElementById('main-desc').innerText = "You've made me the happiest person alive. I promise to cherish you and look after your heart every single day. Let's talk soon!";
+      
+      const wrapper = document.getElementById('actions-wrapper');
+      wrapper.innerHTML = `
+        <button class="btn btn-yes" style="pointer-events: none;">
+          I love you!
+        </button>
+      `;
+    }
+  </script>
+</body>
+</html>
